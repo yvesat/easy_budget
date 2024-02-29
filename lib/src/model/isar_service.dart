@@ -7,33 +7,33 @@ class IsarService {
   late Future<Isar> db;
 
   IsarService() {
-    db = abrirDB();
+    db = openDB();
   }
 
-  Future<void> limparDB() async {
+  Future<void> clearDB() async {
     final isar = await db;
     await isar.writeTxn(() => isar.clear());
   }
 
   //Usuario
-  Future<User?> getUserDB() async {
+  Future<UserModel?> getUserDB() async {
     final isar = await db;
-    User? acesso = await isar.users.where().findFirst();
-    return acesso;
+    UserModel? user = await isar.users.where().findFirst();
+    return user;
   }
 
-  Future<void> gravarUsuarioDB(User usuario) async {
+  Future<void> saveUserDB(UserModel user) async {
     final isar = await db;
     // await isar.writeTxnSync(() async => isar.usuarios.putSync(usuario));
-    await isar.writeTxn(() async => isar.users.put(usuario));
+    await isar.writeTxn(() async => isar.users.put(user));
   }
 
-  Future<int> limparUsuarioDB() async {
+  Future<int> clearUserDB() async {
     final isar = await db;
     return await isar.writeTxn(() async => await isar.users.where().deleteAll());
   }
 
-  Future<Isar> abrirDB() async {
+  Future<Isar> openDB() async {
     if (Isar.instanceNames.isEmpty) {
       final dir = await getApplicationDocumentsDirectory();
       return await Isar.open(

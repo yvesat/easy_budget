@@ -1,9 +1,10 @@
 // ignore_for_file: use_build_context_synchronously
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:package_info/package_info.dart';
 
+import '../controller/login_controller.dart';
+import '../model/user_model.dart';
 import 'widgets/button.dart';
 import 'widgets/login_text_field.dart';
 import 'widgets/progress.dart';
@@ -19,9 +20,7 @@ class LoginPage extends ConsumerStatefulWidget {
 class _LoginPageState extends ConsumerState<LoginPage> {
   bool _hidePassword = true;
 
-  String _versao = "";
-
-  // late Future<Usuario?> _usuario;
+  late Future<UserModel?> user;
 
   final _edtUser = TextEditingController(text: "");
   final _edtPassword = TextEditingController(text: "");
@@ -29,8 +28,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   @override
   void initState() {
     super.initState();
-    // _usuario = LoginController().recuperarUsuario();
-    _carregarVersao();
+    user = LoginController().loadUser();
   }
 
   @override
@@ -38,16 +36,16 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     final alertaProvider = Provider<Alert>((ref) => Alert());
     final alerta = ref.watch(alertaProvider);
 
-    // final loginState = ref.watch(loginControllerProvider);
-    // final loginController = ref.read(loginControllerProvider.notifier);
+    final loginState = ref.watch(loginControllerProvider);
+    final loginController = ref.read(loginControllerProvider.notifier);
 
     final size = MediaQuery.sizeOf(context);
     return FutureBuilder(
-      future: _usuario,
+      future: user,
       builder: (context, snapshot) {
         if (snapshot.hasData && _edtUser.text.isEmpty && _edtPassword.text.isEmpty) {
-          _edtUser.text = snapshot.data!.usuario!;
-          _edtPassword.text = snapshot.data!.senha!;
+          _edtUser.text = snapshot.data!.user!;
+          _edtPassword.text = snapshot.data!.password!;
         }
         return Scaffold(
           resizeToAvoidBottomInset: false,
@@ -97,7 +95,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                               label: "ENTER",
                               onTap: () async {
                                 try {
-                                  await loginController.entrar(context, ref, _edtUser.text, _edtPassword.text);
+                                  await loginController.login(context, ref, _edtUser.text, _edtPassword.text);
                                 } catch (e) {
                                   alerta.snack(context, e.toString());
                                 }
@@ -110,7 +108,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   ),
                 ),
                 if (loginState.isLoading) Progress(size),
-                Positioned(bottom: 16, right: 16, child: Text("Versão: $_versao")),
               ],
             ),
           ),
@@ -118,12 +115,5 @@ class _LoginPageState extends ConsumerState<LoginPage> {
         // : Progress(size);
       },
     );
-  }
-
-  void _carregarVersao() async {
-    PackageInfo packageInfo = await PackageInfo.fromPlatform();
-    setState(() {
-      _versao = packageInfo.version;
-    });
   }
 }

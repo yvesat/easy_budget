@@ -1,26 +1,26 @@
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 import 'isar_service.dart';
 
 part 'user_model.g.dart';
 
 @collection
-class User {
+class UserModel {
   Id id = Isar.autoIncrement;
-  String? usuario;
-  String? senha;
+  String? user;
+  String? password;
   String? email;
-  String? tokenUsuario;
+  String? userToken;
 
-  User({
-    this.usuario,
-    this.senha,
+  UserModel({
+    this.user,
+    this.password,
     this.email,
   });
 }
 
-class UserNotifier extends StateNotifier<User> {
-  UserNotifier() : super(User());
+class UserNotifier extends StateNotifier<UserModel> {
+  UserNotifier() : super(UserModel());
 
   final IsarService isarService = IsarService();
 
@@ -31,23 +31,23 @@ class UserNotifier extends StateNotifier<User> {
     final userExists = await isarService.getUserDB();
 
     if (userExists == null) {
-      final user = User(
-        usuario: login,
-        senha: senha,
+      final user = UserModel(
+        user: login,
+        password: senha,
       );
       state = user;
-      await isarService.gravarUsuarioDB(state);
+      await isarService.saveUserDB(state);
     } else {
       state = userExists;
     }
   }
 
   Future<void> saveToken(String token) async {
-    state.tokenUsuario = token;
-    await isarService.gravarUsuarioDB(state);
+    state.userToken = token;
+    await isarService.saveUserDB(state);
   }
 
-  User getUser() => state;
+  UserModel getUser() => state;
 }
 
-final userProvider = StateNotifierProvider<UserNotifier, User>((ref) => UserNotifier());
+final userProvider = StateNotifierProvider<UserNotifier, UserModel>((ref) => UserNotifier());

@@ -1,25 +1,23 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../data/repositories/user_repository.dart';-
 import '../model/custom_exception.dart';
-import '../model/servidor_model.dart';
-import '../model/usuario_model.dart';
+import '../model/isar_service.dart';
+import '../model/user_model.dart';
 
 class LoginController extends StateNotifier<AsyncValue<void>> {
   LoginController() : super(const AsyncValue.data(null));
 
-  final UserRepository repositorioUsuario = UserRepository();
+  // final UserRepository repositorioUsuario = UserRepository();
   final IsarService isarService = IsarService();
 
-  //Recupera usuário do banco de dados
-  Future<Usuario?> recuperarUsuario() async {
+  Future<UserModel?> loadUser() async {
     try {
       state = const AsyncValue.loading();
-      return await isarService.recuperarUsuarioDB();
+      return await isarService.getUserDB();
     } catch (_) {
       rethrow;
     } finally {
@@ -27,7 +25,7 @@ class LoginController extends StateNotifier<AsyncValue<void>> {
     }
   }
 
-  Future<void> entrar(BuildContext context, WidgetRef ref, String? login, String? senha) async {
+  Future<void> login(BuildContext context, WidgetRef ref, String? login, String? senha) async {
     try {
       if (login == null) throw CustomException("Usuário inválido");
 
@@ -35,46 +33,13 @@ class LoginController extends StateNotifier<AsyncValue<void>> {
 
       state = const AsyncValue.loading();
 
-      try {
-        await repositorioUsuario.logIn(ref, login, senha);
-      } catch (e) {
-        throw CustomException(e.toString());
-      }
+      // await repositorioUsuario.logIn(ref, login, senha);
 
-      final usuarioController = ref.read(usuarioProvider.notifier);
-      final usuarioState = ref.read(usuarioProvider);
+      // final userController = ref.read(userProvider.notifier);
+      // final userState = ref.read(userProvider);
 
-      if (usuarioState.servidores!.length == 1) {
-        usuarioController.gravarCaminhoBanco(usuarioState.servidores![0].nome, usuarioState.servidores![0].caminho);
-        //TODO: DESCOMENTAR PARA CONECTAR COM A API
-        await repositorioUsuario.getToken(ref);
-        context.go('/principal');
-      } else {
-        context.go('/escolha-base');
-      }
-    } catch (e) {
-      throw CustomException(e.toString());
-    } finally {
-      state = const AsyncValue.data(null);
-    }
-  }
-
-  Future<void> continuarComBaseSelecionada(BuildContext context, WidgetRef ref, Servidor? servidor) async {
-    state = const AsyncValue.loading();
-
-    try {
-      if (servidor == null) throw CustomException("Base de dados não selecionada");
-
-      final usuarioState = ref.read(usuarioProvider);
-      final usuarioController = ref.read(usuarioProvider.notifier);
-
-      usuarioController.gravarCaminhoBanco(servidor.nome, servidor.caminho);
-
-      //TODO: DESCOMENTAR PARA CONECTAR COM A API
-      await repositorioUsuario.getToken(ref);
-      if (usuarioState.tokenUsuario!.token == "" || usuarioState.tokenUsuario == null) throw CustomException("Sem permissão para acesso a esta base.");
-
-      context.go('/principal');
+      // await repositorioUsuario.getToken(ref);
+      context.go('/home');
     } catch (e) {
       rethrow;
     } finally {

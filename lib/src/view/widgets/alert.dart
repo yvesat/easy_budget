@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../model/enums/alert_type.dart';
 
@@ -33,8 +33,7 @@ class Alert {
       context: context,
       barrierDismissible: false,
       builder: (context) {
-        return WillPopScope(
-          onWillPop: () async => true,
+        return PopScope(
           child: AlertDialog(
             title: Text(titulo),
             content: Text(mensagem),
