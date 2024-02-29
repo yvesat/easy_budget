@@ -7,7 +7,7 @@ class LoginTextField extends StatelessWidget {
   final bool hide;
   final TextInputType keyboardType;
   final int maxLength;
-  final bool? enable;
+  final bool? enabled;
 
   const LoginTextField({
     super.key,
@@ -16,7 +16,7 @@ class LoginTextField extends StatelessWidget {
     required this.hide,
     required this.keyboardType,
     required this.maxLength,
-    this.enable,
+    this.enabled,
   });
 
   @override
@@ -27,11 +27,10 @@ class LoginTextField extends StatelessWidget {
       keyboardType: keyboardType,
       maxLength: maxLength,
       maxLines: 1,
-      enabled: enable ?? true,
+      enabled: enabled ?? true,
       autocorrect: false,
       onTapOutside: (_) => SystemChannels.textInput.invokeMethod('TextInput.hide'),
       decoration: InputDecoration(labelText: label, filled: true, counterText: "", isDense: true),
-      // inputFormatters: [TextListener()],
     );
   }
 }

@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../controller/login_controller.dart';
-import '../model/enums/auth_mode.dart';
 import '../model/user_model.dart';
 import 'widgets/button.dart';
 import 'widgets/login_text_field.dart';
@@ -19,10 +18,13 @@ class AuthPage extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _LoginPageState();
 }
 
+enum AuthMode {
+  signUp,
+  logIn,
+}
+
 class _LoginPageState extends ConsumerState<AuthPage> {
   bool _hidePassword = true;
-
-  String _version = "";
 
   late Future<UserModel?> _user;
 
@@ -151,7 +153,6 @@ class _LoginPageState extends ConsumerState<AuthPage> {
                   ),
                 ),
                 if (loginState.isLoading) Progress(size),
-                Positioned(bottom: 16, right: 16, child: Text("Version: $_version")),
               ],
             ),
           ),
