@@ -50,3 +50,5 @@ linux/flutter/generated_plugins.cmake
 linux/flutter/generated_plugin_registrant.h
 linux/flutter/generated_plugin_registrant.cc
 pubspec.lock
+windows/runner/flutter_window.cpp
+windows/flutter/CMakeLists.txt
