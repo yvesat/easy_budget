@@ -1,31 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../model/enums/alert_type.dart';
 
 class Alert {
-  dialog(BuildContext context, AlertType tipo, String mensagem, {VoidCallback? onPress}) {
-    String titulo;
+  dialog(BuildContext context, AlertType alertType, String message, {VoidCallback? onPress}) {
+    String title;
     String okButton;
     String? cancelButton;
 
-    switch (tipo) {
+    switch (alertType) {
       case AlertType.error:
-        titulo = "Error";
-        okButton = "OK";
+        title = AppLocalizations.of(context)!.error;
+        okButton = AppLocalizations.of(context)!.ok;
         break;
       case AlertType.warning:
-        titulo = "Warning";
-        okButton = "CONFIRM";
-        cancelButton = "CANCEL";
+        title = AppLocalizations.of(context)!.confirmation;
+        okButton = AppLocalizations.of(context)!.confirm;
+        cancelButton = AppLocalizations.of(context)!.cancel;
         break;
       case AlertType.sucess:
-        titulo = "Sucess";
-        okButton = "OK";
+        title = AppLocalizations.of(context)!.success;
+        okButton = AppLocalizations.of(context)!.ok;
         break;
       default:
-        titulo = "Error";
-        okButton = "OK";
+        title = AppLocalizations.of(context)!.error;
+        okButton = AppLocalizations.of(context)!.ok;
         break;
     }
 
@@ -35,8 +36,8 @@ class Alert {
       builder: (context) {
         return PopScope(
           child: AlertDialog(
-            title: Text(titulo),
-            content: Text(mensagem),
+            title: Text(title),
+            content: Text(message),
             actions: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -44,7 +45,7 @@ class Alert {
                   TextButton(
                     // onPressed: onPress,
                     onPressed: () {
-                      if (tipo == AlertType.warning) {
+                      if (alertType == AlertType.warning) {
                         onPress == null ? Navigator.pop(context) : onPress();
                       } else {
                         Navigator.pop(context);
@@ -52,7 +53,7 @@ class Alert {
                     },
                     child: Text(okButton),
                   ),
-                  if (tipo == AlertType.warning)
+                  if (alertType == AlertType.warning)
                     TextButton(
                       onPressed: () => Navigator.pop(context),
                       child: Text(cancelButton!),
@@ -66,17 +67,17 @@ class Alert {
     );
   }
 
-  snack(BuildContext context, String mensagem, {String? botao}) {
+  snack(BuildContext context, String message, {String? button}) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Center(
         child: Text(
-          mensagem,
+          message,
         ),
       ),
       duration: const Duration(seconds: 5),
-      action: SnackBarAction(label: (botao ?? "OK"), onPressed: () {}),
+      action: SnackBarAction(label: (button ?? AppLocalizations.of(context)!.ok), onPressed: () {}),
     ));
   }
 }
 
-final alertaProvider = Provider((_) => Alert());
+final alertProvider = Provider((_) => Alert());
