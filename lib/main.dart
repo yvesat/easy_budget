@@ -1,7 +1,11 @@
+import 'package:easy_budget/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:easy_budget/l10n/l10n.dart';
 
 import 'src/controller/routes_controller.dart';
 
@@ -26,6 +30,14 @@ Future<void> main() async {
         theme: FlexThemeData.light(scheme: FlexScheme.green),
         darkTheme: FlexThemeData.dark(scheme: FlexScheme.green),
         themeMode: ThemeMode.system,
+        supportedLocales: L10n.all,
+        locale: const Locale('pt'),
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
       ),
     ),
   );

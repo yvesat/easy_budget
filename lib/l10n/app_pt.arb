@@ -1,0 +1,31 @@
+{
+    "language": "Portuguese",
+    "@language": {
+        "description": "A língua atual"
+    },
+    "email": "Email",
+    "password": "Senha",
+    "confirmPassword": "Confirmar senha",
+    "signUp": "Cadastrar",
+    "logIn": "Log In",
+    "fullName": "Nome e sobrenome",
+    "authPageOr": "Ou",
+    "forgotPassword": "Esqueceu sua senha?",
+    "alreadyHaveAccount": "Já tem uma conta? Log in",
+    "dontHaveAccount": "Não tem uma conta? Cadastre-se",
+    "logOutFromAppConfirmation": "Sair do app?",
+    "errorNoEMail": "Email inválido",
+    "errorNoPassword": "Favor informar senha",
+    "errorWrongUserOrPwd": "Usuário ou senha inválida",
+    "errorInvalidEMailFormat": "Formato de e-mail inválido",
+    "errorPasswordTooShort": "Senhas devem ter ao menos 6 caracteres",
+    "errorNoConfirmationPassword": "Favor confirmar sua senha",
+    "errorPasswordNoMatch": "As senhas não coincidem",
+    "errorEMailAlreadyUsed": "Este Email já está em uso em outra conta",
+    "error": "Erro",
+    "ok": "OK",
+    "cancel": "CANCELAR",
+    "confirmation": "CONFIRMAÇÃO",
+    "confirm": "CONFIRMAR",
+    "success": "Successo"
+}

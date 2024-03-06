@@ -1,0 +1,31 @@
+{
+    "language": "English",
+    "@language": {
+        "description": "The current language"
+    },
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm password",
+    "signUp": "Sign Up",
+    "logIn": "Log In",
+    "fullName": "Full name",
+    "authPageOr": "Or",
+    "forgotPassword": "Forgot password?",
+    "alreadyHaveAccount": "Already have an account? Log in",
+    "dontHaveAccount": "Don't have an account? Sign Up",
+    "logOutFromAppConfirmation": "Log out from the app?",
+    "errorNoEMail": "Invalid Email",
+    "errorNoPassword": "Please enter a password",
+    "errorWrongUserOrPwd": "Invalid user or password.",
+    "errorInvalidEMailFormat": "Invalid e-mail format",
+    "errorPasswordTooShort": "Password must be at least 6 characters long",
+    "errorNoConfirmationPassword": "Please confirm your password",
+    "errorPasswordNoMatch": "Passwords doesn't match",
+    "errorEMailAlreadyUsed": "Email is already registred for another account",
+    "error": "Error",
+    "ok": "OK",
+    "cancel": "CANCEL",
+    "confirmation": "Confirmation",
+    "confirm": "CONFIRM",
+    "success": "Success"
+}
