@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 
+import '../../model/enums/auth_mode.dart';
+
 class GoogleSignInButton extends StatelessWidget {
   final VoidCallback onPressed;
+  final AuthMode authMode;
 
-  const GoogleSignInButton({super.key, required this.onPressed});
+  const GoogleSignInButton({super.key, required this.onPressed, required this.authMode});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +31,7 @@ class GoogleSignInButton extends StatelessWidget {
             ),
             Expanded(
               child: Text(
-                "Sign In with Google",
+                authMode == AuthMode.logIn ? "Log In with Google" : "Sign Up with Google",
                 style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
                 textAlign: TextAlign.center,
               ),
