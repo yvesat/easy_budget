@@ -25,11 +25,9 @@ class _LoginPageState extends ConsumerState<AuthPage> {
 
   late Future<UserModel?> _user;
 
-  final _edtUser = TextEditingController(text: "");
-  final _edtNewUser = TextEditingController(text: "");
-  final _edtName = TextEditingController(text: "");
+  final _edtEmail = TextEditingController(text: "");
   final _edtPassword = TextEditingController(text: "");
-  final _edSecondtPassword = TextEditingController(text: "");
+  final _edConfirmPassword = TextEditingController(text: "");
 
   AuthMode _authMode = AuthMode.logIn;
 
@@ -53,8 +51,8 @@ class _LoginPageState extends ConsumerState<AuthPage> {
     return FutureBuilder(
       future: _user,
       builder: (context, snapshot) {
-        if (snapshot.hasData && _edtUser.text.isEmpty && _edtPassword.text.isEmpty) {
-          _edtUser.text = snapshot.data!.user!;
+        if (snapshot.hasData && _edtEmail.text.isEmpty && _edtPassword.text.isEmpty) {
+          _edtEmail.text = snapshot.data!.user!;
           _edtPassword.text = snapshot.data!.password!;
         }
         return Scaffold(
@@ -80,9 +78,8 @@ class _LoginPageState extends ConsumerState<AuthPage> {
                           mainAxisSize: MainAxisSize.max,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
-                            if (_authMode == AuthMode.signUp) LoginTextField(controller: _edtName, label: AppLocalizations.of(context)!.fullName, hide: false, keyboardType: TextInputType.emailAddress, maxLength: 100),
                             if (_authMode == AuthMode.signUp) const SizedBox(height: 8),
-                            LoginTextField(controller: _authMode == AuthMode.signUp ? _edtNewUser : _edtUser, label: AppLocalizations.of(context)!.email, hide: false, keyboardType: TextInputType.emailAddress, maxLength: 100),
+                            LoginTextField(controller: _edtEmail, label: AppLocalizations.of(context)!.email, hide: false, keyboardType: TextInputType.emailAddress, maxLength: 100),
                             const SizedBox(height: 8),
                             Stack(
                               alignment: Alignment.centerRight,
@@ -105,7 +102,7 @@ class _LoginPageState extends ConsumerState<AuthPage> {
                                 alignment: Alignment.centerRight,
                                 children: <Widget>[
                                   LoginTextField(
-                                    controller: _edSecondtPassword,
+                                    controller: _edConfirmPassword,
                                     label: AppLocalizations.of(context)!.confirmPassword,
                                     hide: _hidePassword,
                                     keyboardType: TextInputType.emailAddress,
@@ -118,7 +115,11 @@ class _LoginPageState extends ConsumerState<AuthPage> {
                               label: _authMode == AuthMode.logIn ? AppLocalizations.of(context)!.logIn : AppLocalizations.of(context)!.signUp,
                               onTap: () async {
                                 try {
-                                  await loginController.logIn(context, ref, _edtUser.text, _edtPassword.text);
+                                  if (_authMode == AuthMode.logIn) {
+                                    await loginController.logIn(context, ref, _edtEmail.text, _edtPassword.text);
+                                  } else {
+                                    await loginController.signUp(context, ref, _edtEmail.text, _edtPassword.text, _edConfirmPassword.text);
+                                  }
                                 } catch (e) {
                                   alert.snack(context, e.toString());
                                 }
