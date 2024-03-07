@@ -18,19 +18,19 @@ class IsarService {
   //Usuario
   Future<UserModel?> getUserDB() async {
     final isar = await db;
-    UserModel? user = await isar.users.where().findFirst();
+    UserModel? user = await isar.userModels.where().findFirst();
     return user;
   }
 
   Future<void> saveUserDB(UserModel user) async {
     final isar = await db;
     // await isar.writeTxnSync(() async => isar.usuarios.putSync(usuario));
-    await isar.writeTxn(() async => isar.users.put(user));
+    await isar.writeTxn(() async => isar.userModels.put(user));
   }
 
   Future<int> clearUserDB() async {
     final isar = await db;
-    return await isar.writeTxn(() async => await isar.users.where().deleteAll());
+    return await isar.writeTxn(() async => await isar.userModels.where().deleteAll());
   }
 
   Future<Isar> openDB() async {
@@ -38,8 +38,7 @@ class IsarService {
       final dir = await getApplicationDocumentsDirectory();
       return await Isar.open(
         directory: dir.path,
-        [UserSchema],
-        // [UsuarioSchema, DocSchema, DocLineSchema, LoteSchema],
+        [UserModelSchema],
         inspector: true,
       );
     }
