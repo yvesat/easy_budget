@@ -1,4 +1,5 @@
 import 'package:easy_budget/l10n/l10n.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -7,6 +8,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:easy_budget/l10n/l10n.dart';
 
+import 'firebase_options.dart';
 import 'src/controller/routes_controller.dart';
 
 Future<void> main() async {
@@ -15,12 +17,9 @@ Future<void> main() async {
     DeviceOrientation.portraitUp,
   ]);
 
-  // await SentryFlutter.init(
-  //   (options) {
-  //     options.dsn = 'https://8ace65323c4342fe9c3d45acd7f5afaf@o4504764703244288.ingest.sentry.io/4504764716482560';
-  //     options.tracesSampleRate = 1.0;
-  //   },
-  // );
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   runApp(
     ProviderScope(
