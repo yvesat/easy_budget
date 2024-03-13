@@ -52,3 +52,4 @@ linux/flutter/generated_plugin_registrant.cc
 pubspec.lock
 windows/runner/flutter_window.cpp
 windows/flutter/CMakeLists.txt
+lib/todo.dart
