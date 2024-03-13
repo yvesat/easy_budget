@@ -1,7 +1,8 @@
-import 'package:easy_budget/src/model/custom_exception.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import '../custom_exception.dart';
 
 class UserServices {
   static Future<UserCredential> logIn(BuildContext context, String email, String password) async {
