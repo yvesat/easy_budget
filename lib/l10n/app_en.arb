@@ -23,6 +23,7 @@
     "errorNoConfirmationPassword": "Please confirm your password",
     "errorPasswordNoMatch": "Passwords doesn't match",
     "errorEmailAlreadyInUse": "Email is already registred for another account",
+    "errorUserDisabled": "Your account has been temporarily disabled. Please contact support for further assistance.",
     "error": "Error",
     "ok": "OK",
     "cancel": "CANCEL",
