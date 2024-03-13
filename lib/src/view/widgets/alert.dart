@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../model/enums/alert_type.dart';
 
 class Alert {
-  dialog(BuildContext context, AlertType alertType, String message, {VoidCallback? onPress}) {
+  static void dialog(BuildContext context, AlertType alertType, String message, {VoidCallback? onPress}) {
     String title;
     String okButton;
     String? cancelButton;
@@ -67,7 +66,7 @@ class Alert {
     );
   }
 
-  snack(BuildContext context, String message, {String? button}) {
+  static void snack(BuildContext context, String message, {String? button}) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Center(
         child: Text(
@@ -79,5 +78,3 @@ class Alert {
     ));
   }
 }
-
-final alertProvider = Provider((_) => Alert());

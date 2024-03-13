@@ -39,9 +39,6 @@ class _LoginPageState extends ConsumerState<AuthPage> {
 
   @override
   Widget build(BuildContext context) {
-    final alertProvider = Provider<Alert>((ref) => Alert());
-    final alert = ref.watch(alertProvider);
-
     final loginState = ref.watch(authControllerProvider);
     final loginController = ref.read(authControllerProvider.notifier);
 
@@ -119,9 +116,12 @@ class _LoginPageState extends ConsumerState<AuthPage> {
                                     await loginController.logIn(context, ref, _edtEmail.text, _edtPassword.text);
                                   } else {
                                     await loginController.signUp(context, ref, _edtEmail.text, _edtPassword.text, _edConfirmPassword.text);
+                                    setState(() {
+                                      _authMode = AuthMode.logIn;
+                                    });
                                   }
                                 } catch (e) {
-                                  alert.snack(context, e.toString());
+                                  Alert.snack(context, e.toString());
                                 }
                               },
                             ),
