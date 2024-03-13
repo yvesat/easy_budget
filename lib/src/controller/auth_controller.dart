@@ -25,15 +25,17 @@ class AuthController extends StateNotifier<AsyncValue<void>> {
     }
   }
 
-  Future<void> logIn(BuildContext context, WidgetRef ref, String? login, String? senha) async {
+  Future<void> logIn(BuildContext context, WidgetRef ref, String? email, String? password) async {
     try {
-      if (login == null) throw CustomException("Usuário inválido");
+      if (email == null) throw CustomException("Usuário inválido");
 
-      if (senha == null) throw CustomException("Senha inválida");
+      if (password == null) throw CustomException("Senha inválida");
 
       state = const AsyncValue.loading();
 
-      context.go('/home');
+      final userCredential = await UserServices.logIn(context, email, password);
+
+      if (context.mounted) context.go('/home');
     } catch (e) {
       rethrow;
     } finally {
@@ -49,7 +51,7 @@ class AuthController extends StateNotifier<AsyncValue<void>> {
 
       state = const AsyncValue.loading();
 
-      await UserServices.logIn(context, email, password);
+      await UserServices.signUp(context, email, password);
 
       if (context.mounted) context.go('/home');
     } catch (e) {
