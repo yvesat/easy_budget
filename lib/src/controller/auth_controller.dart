@@ -9,6 +9,7 @@ import '../model/isar_service.dart';
 import '../model/services/user_services.dart';
 import '../model/user_model.dart';
 import '../view/widgets/alert.dart';
+import 'app_settings_controller.dart';
 
 class AuthController extends StateNotifier<AsyncValue<void>> {
   AuthController() : super(const AsyncValue.data(null));
@@ -18,6 +19,9 @@ class AuthController extends StateNotifier<AsyncValue<void>> {
   Future<UserModel?> loadUser() async {
     try {
       state = const AsyncValue.loading();
+
+      await AppSettingsController().initAppSettings();
+
       return await _isarService.getUserDB();
     } catch (_) {
       rethrow;

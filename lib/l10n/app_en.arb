@@ -25,6 +25,7 @@
     "errorEmailAlreadyInUse": "Email is already registred for another account",
     "errorUserDisabled": "Your account has been temporarily disabled. Please contact support for further assistance.",
     "successUserCreation": "Account created! Use your credentials do log in.",
+    "rememberUser": "Remember user",
     "error": "Error",
     "ok": "OK",
     "cancel": "CANCEL",

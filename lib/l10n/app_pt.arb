@@ -25,6 +25,7 @@
     "errorEmailAlreadyInUse": "Este Email já está em uso em outra conta",
     "errorUserDisabled": "Your account has been temporarily disabled. Please contact support for further assistance.",
     "successUserCreation": "Conta criada! Use suas credenciais para entrar.",
+    "rememberUser": "Lembrar usuário",
     "error": "Erro",
     "ok": "OK",
     "cancel": "CANCELAR",

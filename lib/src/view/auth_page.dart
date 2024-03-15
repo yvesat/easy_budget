@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../controller/app_settings_controller.dart';
 import '../controller/auth_controller.dart';
 import '../model/enums/auth_mode.dart';
 import '../model/user_model.dart';
@@ -30,6 +31,7 @@ class _LoginPageState extends ConsumerState<AuthPage> {
   final _edConfirmPassword = TextEditingController(text: "");
 
   AuthMode _authMode = AuthMode.logIn;
+  bool _rememberCredentials = false;
 
   @override
   void initState() {
@@ -42,6 +44,8 @@ class _LoginPageState extends ConsumerState<AuthPage> {
     final loginState = ref.watch(authControllerProvider);
     final loginController = ref.read(authControllerProvider.notifier);
 
+    final appSettingsController = AppSettingsController();
+
     final size = MediaQuery.sizeOf(context);
     var brightness = MediaQuery.of(context).platformBrightness;
     bool isDarkMode = brightness == Brightness.dark;
@@ -51,6 +55,10 @@ class _LoginPageState extends ConsumerState<AuthPage> {
         if (snapshot.hasData && _edtEmail.text.isEmpty && _edtPassword.text.isEmpty) {
           _edtEmail.text = snapshot.data!.user!;
           _edtPassword.text = snapshot.data!.password!;
+          setState(() async {
+            final appSettings = await appSettingsController.getAppSettings();
+            _rememberCredentials = appSettings!.rememberCredentials;
+          });
         }
         return Scaffold(
           resizeToAvoidBottomInset: false,
@@ -125,14 +133,33 @@ class _LoginPageState extends ConsumerState<AuthPage> {
                                 }
                               },
                             ),
-                            //TODO: Implementar função
-                            TextButton(
-                              onPressed: () {},
-                              child: Text(
-                                AppLocalizations.of(context)!.forgotPassword,
-                                style: const TextStyle(fontWeight: FontWeight.bold),
+                            if (_authMode == AuthMode.logIn)
+                              Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 12),
+                                child: InkWell(
+                                  onTap: () async {
+                                    _rememberCredentials = await appSettingsController.changeRemeberCredentials();
+                                    setState(() {});
+                                  },
+                                  child: Row(
+                                    children: [
+                                      FaIcon(_rememberCredentials == true ? FontAwesomeIcons.squareCheck : FontAwesomeIcons.square, color: Theme.of(context).colorScheme.secondary),
+                                      const SizedBox(width: 8),
+                                      Text(AppLocalizations.of(context)!.rememberUser, style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.primary)),
+                                    ],
+                                  ),
+                                ),
                               ),
-                            ),
+                            //TODO: Implementar função
+                            if (_authMode == AuthMode.logIn)
+                              TextButton(
+                                onPressed: () {},
+                                child: Text(
+                                  AppLocalizations.of(context)!.forgotPassword,
+                                  style: const TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                              ),
+
                             Row(
                               children: [
                                 Expanded(child: Container(margin: const EdgeInsets.only(right: 15.0), child: Divider(color: Theme.of(context).colorScheme.secondary, height: 36))),
